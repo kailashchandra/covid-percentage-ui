@@ -10,9 +10,11 @@ import { PercentPayload } from '../PercentPayload';
 export class PercentageComponent implements OnInit {
 
   covidData : PercentPayload;
+  loaderFlag : boolean;
   constructor(private percentageService: PercentageService) { }
 
   ngOnInit(): void {
+    this.loaderFlag = true;
     this.covidData = {recoverd: "0", death: "0"};
     this.covidData.recoverd = "0";
     this.covidData.death = "0"
@@ -25,7 +27,9 @@ export class PercentageComponent implements OnInit {
       var death = data.totalDeath/data.totalCase;
       this.covidData.recoverd = parseFloat((recoverd*100).toString()).toFixed(2);
       this.covidData.death = parseFloat((death*100).toString()).toFixed(2)
+      this.loaderFlag = false;
     }, error => {
+      this.loaderFlag = false;
       console.log("this. is error area");
     });
   }
